@@ -1,10 +1,10 @@
-application: ----app name----
+application: webdev-play 
 version: 1
+threadsafe: true
+
+
 runtime: go
-api_version: go1
-instance_class: F4_1G
-automatic_scaling:
-  max_concurrent_requests: 500
+api_version: go1 
  
 handlers:
 - url: /.*
