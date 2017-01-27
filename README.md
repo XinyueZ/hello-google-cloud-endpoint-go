@@ -13,7 +13,8 @@ This API ```POST```s following struct as ```BODY``` to backend.
 
 ```json
 {
-    "author":" Tester",
+    "author": "Tester",
+    "title": "Jimmy Block has a wunder",
     "content": "hello,world"
 }
 ```
@@ -32,6 +33,7 @@ if ```limit<=0``` returns *10* objects as default.
    "id": "ahNzfm9yYml0YWwtc3RhZ2UtNjQ4chULEghEb2N1bWVudBiAgICA-MKECgw",
    "author": "TesterTesterTesterTesterTesterTesterTester",
    "content": "TesterTesterTesterTesterTesterTester",
+   "title": "Jimmy Block has a wunder",
    "date": "2017-01-26T21:28:02.94061Z",
    "kind": "documents#documentsItem"
   },
@@ -39,6 +41,7 @@ if ```limit<=0``` returns *10* objects as default.
    "id": "ahNzfm9yYml0YWwtc3RhZ2UtNjQ4chULEghEb2N1bWVudBiAgICAgICACgw",
    "author": "Tester",
    "content": "hello,world",
+   "title": "Jimmy Block has a wunder",
    "date": "2017-01-26T21:24:26.166387Z",
    "kind": "documents#documentsItem"
   }
