@@ -7,7 +7,7 @@
 
 ## API
 
-##### This API ```POST```s following struct as ```BODY``` to backend.
+##### This API ```POST```s following struct as ```BODY``` to backend:
 
 ```POST https://appname.appspot.com/_ah/api/documents/v1/documents```
 
@@ -19,14 +19,14 @@
 }
 ```
 
-##### This API  ```GET```s a list of recent ```POST```ed struct.
+##### This API  ```GET```s a list of recent ```POST```ed struct:
 
 
 ```GET https://appname.appspot.com/_ah/api/documents/v1/documents?limit=[>=0]```
 
 if ```limit<=0``` returns *10* objects as default. 
 
-##### This API  can ```POST``` following ```json``` to search list of objects.
+##### This API  can ```POST``` following ```json``` to search list of objects:
 
 ```json
 {
@@ -61,7 +61,7 @@ if ```limit<=0``` returns *10* objects as default.
 }
 ```
 
-##### This API  can also do *update* with body in ```json```
+##### This API  can also do *update* with body in ```json``` :
 
 *From* data-entry:
 
@@ -81,6 +81,14 @@ if ```limit<=0``` returns *10* objects as default.
    "author": "TrumpTrumpTrumpTrump",
    "title": "TrumpwunderTrumpTrumpTrumpTrumpTrump",
    "date": "2017-01-28T22:31:50.665367Z"
+  }
+```
+
+##### This API  can also do *delete* with body in ```json``` :
+
+```json 
+  {
+   "id": "ag1zfndlYmRldi1wbGF5chULEghEb2N1bWVudBiAgICA67iPCgw" 
   }
 ```
 
