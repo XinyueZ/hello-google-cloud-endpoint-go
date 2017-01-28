@@ -21,16 +21,16 @@ type Service struct {
 type Document struct {
 	Key     *datastore.Key `json:"id" datastore:"-"`
 	Author  string         `json:"author"`
-	Title   string         `json:"title" datastore:",noindex"`
-	Content string         `json:"content" datastore:",noindex"`
+	Title   string         `json:"title"`
+	Content string         `json:"content"`
 	Date    time.Time      `json:"date"`
 }
 
 //NewDocument is model of added text content.
 type NewDocument struct {
 	Author  string `json:"author"`
-	Title   string `json:"title" datastore:",noindex"`
-	Content string `json:"content" datastore:",noindex"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
 }
 
 // DocumentListRequest is request asking for list of documents.
@@ -46,14 +46,13 @@ type DocmentList struct {
 //SearchWithKeywordRequest gives us list of name of documents.
 type SearchWithKeywordRequest struct {
 	Keyword string `json:"keyword" endpoints:"d=''"`
-	Limit   int    `json:"limit" endpoints:"d=10"`
 }
 
 //SearchResult is searched information by SearchWithKeywordRequest.
 type SearchResult struct {
-	Key    *datastore.Key `json:"id" datastore:"-"`
+	Key    *datastore.Key `json:"id"`
 	Author string         `json:"author"`
-	Title  string         `json:"title" datastore:",noindex"`
+	Title  string         `json:"title"`
 	Date   time.Time      `json:"date"`
 }
 
@@ -99,19 +98,29 @@ func (service *Service) SearchResults(c context.Context, r *SearchWithKeywordReq
 	if len(strings.TrimSpace(r.Keyword)) == 0 || r.Keyword == "''" {
 		return nil, nil
 	}
-	if r.Limit <= 0 {
-		r.Limit = 10
+	filters := []string{"Author =", "Title =", "Content ="}
+	documents := make([]*Document, 0)
+	cnt := len(filters)
+	for i := 0; i < cnt; i++ {
+		q := datastore.NewQuery(TABLE).Filter(filters[i], r.Keyword)
+		searched := make([]*Document, 0)
+		keys, err := q.GetAll(c, &searched)
+		if err != nil {
+			return nil, err
+		}
+		for i, k := range keys {
+			searched[i].Key = k
+		}
+		documents = append(documents, searched...)
 	}
-
-	q := datastore.NewQuery(TABLE).Filter("Title =", r.Keyword).Filter("Content =", r.Keyword).Order("-Date").Limit(r.Limit)
-	results := make([]*SearchResult, 0, r.Limit)
-	keys, err := q.GetAll(c, &results)
-	if err != nil {
-		return nil, err
-	}
-
-	for i, k := range keys {
-		results[i].Key = k
+	results := make([]*SearchResult, 0)
+	for _, d := range documents {
+		result := &SearchResult{
+			d.Key,
+			d.Author,
+			d.Title,
+			d.Date}
+		results = append(results, result)
 	}
 	return &SearchResultList{results}, nil
 }
