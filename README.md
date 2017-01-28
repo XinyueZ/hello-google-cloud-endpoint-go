@@ -22,7 +22,7 @@ This API ```POST```s following struct as ```BODY``` to backend.
 This API  ```GET```s a list of recent ```POST```ed struct.
 
 
-```GET https://orbital-stage-648.appspot.com/_ah/api/documents/v1/documents?limit=[>=0]```
+```GET https://appname.appspot.com/_ah/api/documents/v1/documents?limit=[>=0]```
 
 if ```limit<=0``` returns *10* objects as default. 
 
