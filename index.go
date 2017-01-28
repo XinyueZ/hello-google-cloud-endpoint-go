@@ -33,6 +33,11 @@ type NewDocument struct {
 	Content string `json:"content"`
 }
 
+//DeleteDocumentRequest is request to delete one document.
+type DeleteDocumentRequest struct {
+	Key *datastore.Key `json:"id"`
+}
+
 // DocumentListRequest is request asking for list of documents.
 type DocumentListRequest struct {
 	Limit int `json:"limit" endpoints:"d=10"`
@@ -79,6 +84,11 @@ func (service *Service) UpdateDcoment(c context.Context, doc *Document) error {
 	k := doc.Key
 	_, err := datastore.Put(c, k, doc)
 	return err
+}
+
+//DeleteDcoment deletes a document.
+func (service *Service) DeleteDcoment(c context.Context, r *DeleteDocumentRequest) error {
+	return datastore.Delete(c, r.Key)
 }
 
 //ListDocument returns list of most recent documents.
@@ -152,6 +162,7 @@ func init() {
 	register("AddDcoment", "documents.add", "POST", "documents/add", "Add a document.")
 	register("SearchResults", "documents.search", "POST", "documents/search", "Search with keyword.")
 	register("UpdateDcoment", "documents.update", "POST", "documents/update", "Update a document.")
+	register("DeleteDcoment", "documents.delete", "POST", "documents/delete", "Delete a document.")
 
 	endpoints.HandleHTTP()
 }
