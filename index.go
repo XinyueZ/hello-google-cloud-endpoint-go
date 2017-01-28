@@ -61,7 +61,7 @@ type SearchResultList struct {
 	Results []*SearchResult `json:"results"`
 }
 
-//AddDcoment adds adds a document.
+//AddDcoment adds a document.
 func (service *Service) AddDcoment(c context.Context, doc *NewDocument) error {
 	k := datastore.NewIncompleteKey(c, TABLE, nil)
 	g := &Document{
@@ -71,6 +71,13 @@ func (service *Service) AddDcoment(c context.Context, doc *NewDocument) error {
 		Date:    time.Now(),
 	}
 	_, err := datastore.Put(c, k, g)
+	return err
+}
+
+//UpdateDcoment updates a document.
+func (service *Service) UpdateDcoment(c context.Context, doc *Document) error {
+	k := doc.Key
+	_, err := datastore.Put(c, k, doc)
 	return err
 }
 
@@ -144,6 +151,7 @@ func init() {
 	register("ListDocument", "documents.list", "GET", "documents/list", "List most recent documents.")
 	register("AddDcoment", "documents.add", "POST", "documents/add", "Add a document.")
 	register("SearchResults", "documents.search", "POST", "documents/search", "Search with keyword.")
+	register("UpdateDcoment", "documents.update", "POST", "documents/update", "Update a document.")
 
 	endpoints.HandleHTTP()
 }
