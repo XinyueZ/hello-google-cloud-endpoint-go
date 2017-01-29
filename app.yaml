@@ -1,4 +1,5 @@
 application: webdev-play 
+module: default
 version: 1
 threadsafe: true
 
@@ -9,9 +10,11 @@ api_version: go1
 handlers:
 - url: /.*
   script: _go_app
+  secure: always
 
 # Important! Even though there's a catch all routing above,
 # without these two lines it's not going to work.
 # Make sure you have this:
 - url: /_ah/spi/.*
   script: _go_app
+  secure: always
