@@ -55,10 +55,11 @@ type SearchWithKeywordRequest struct {
 
 //SearchResult is searched information by SearchWithKeywordRequest.
 type SearchResult struct {
-	Key    *datastore.Key `json:"id"`
-	Author string         `json:"author"`
-	Title  string         `json:"title"`
-	Date   time.Time      `json:"date"`
+	Key      *datastore.Key `json:"id"`
+	Author   string         `json:"author"`
+	Title    string         `json:"title"`
+	Snapshot string         `json:"snapshot"`
+	Date     time.Time      `json:"date"`
 }
 
 // SearchResultList is a collection of searched result by SearchWithKeywordRequest.
@@ -136,6 +137,7 @@ func (service *Service) SearchResults(c context.Context, r *SearchWithKeywordReq
 			d.Key,
 			d.Author,
 			d.Title,
+			getSnapshot(d.Content),
 			d.Date}
 		results = append(results, result)
 	}
